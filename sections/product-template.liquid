@@ -147,9 +147,6 @@
 
         <h1 class="product-single__title">{{ product.title }}</h1>
         <script>window.performance.mark('debut:product:title_visible');</script>
-          {% if contains_affiliate %}
-            <a href="{{ affiliate_url }}" class="btn shopify-payment-button__button shopify-payment-button__button--unbranded BUz42FHpSPncCPJ4Pr_f jjzYeefyWpPZLH9pIgyw RWJ0IfBjxIhflh4AIrUw">See on Amazon</a>
-          {% endif %}
           {% unless contains_affiliate%}
             <div class="product__price">
               {% include 'product-price', variant: current_variant, show_vendor: section.settings.show_vendor %}
@@ -171,27 +168,26 @@
             {%- if section.settings.enable_payment_button and product.has_only_default_variant %} product-form--payment-button-no-variants {%- endif -%}
             {%- if current_variant.available == false %} product-form--variant-sold-out {%- endif -%}
           {%- endcapture %}
-        {% unless contains_affiliate %}
           {% form 'product', product, class:form_classes, novalidate: 'novalidate', data-product-form: '' %}
             {{ form | payment_terms }}
 
             {% unless product.has_only_default_variant %}
               <div class="product-form__controls-group">
-                {% for option in product.options_with_values %}
-                  <div class="selector-wrapper js product-form__item">
-                    <label for="SingleOptionSelector-{{ forloop.index0 }}">
-                      {{ option.name }}
-                    </label>
-                    <select class="single-option-selector single-option-selector-{{ section.id }} product-form__input"
-                      id="SingleOptionSelector-{{ forloop.index0 }}"
-                      data-index="option{{ forloop.index }}"
-                    >
-                      {% for value in option.values %}
-                        <option value="{{ value | escape }}"{% if option.selected_value == value %} selected="selected"{% endif %}>{{ value }}</option>
-                      {% endfor %}
-                    </select>
-                  </div>
-                {% endfor %}
+                  {% for option in product.options_with_values %}
+                    <div class="selector-wrapper js product-form__item">
+                      <label for="SingleOptionSelector-{{ forloop.index0 }}">
+                        {{ option.name }}
+                      </label>
+                      <select class="single-option-selector single-option-selector-{{ section.id }} product-form__input"
+                        id="SingleOptionSelector-{{ forloop.index0 }}"
+                        data-index="option{{ forloop.index }}"
+                      >
+                        {% for value in option.values %}
+                          <option value="{{ value | escape }}"{% if option.selected_value == value %} selected="selected"{% endif %}>{{ value }}</option>
+                        {% endfor %}
+                      </select>
+                    </div>
+                  {% endfor %}
               </div>
             {% endunless %}
 
@@ -204,18 +200,19 @@
                 </option>
               {% endfor %}
             </select>
-
-            {% if section.settings.show_quantity_selector %}
-              <div class="product-form__controls-group">
-                <div class="product-form__item">
-                  <label for="Quantity-{{ section.id }}">{{ 'products.product.quantity' | t }}</label>
-                  <input type="number" id="Quantity-{{ section.id }}"
-                    name="quantity" value="1" min="1" pattern="[0-9]*"
-                    class="product-form__input product-form__input--quantity" data-quantity-input
-                  >
+            {% unless contains_affiliate %}
+              {% if section.settings.show_quantity_selector %}
+                <div class="product-form__controls-group">
+                  <div class="product-form__item">
+                    <label for="Quantity-{{ section.id }}">{{ 'products.product.quantity' | t }}</label>
+                    <input type="number" id="Quantity-{{ section.id }}"
+                      name="quantity" value="1" min="1" pattern="[0-9]*"
+                      class="product-form__input product-form__input--quantity" data-quantity-input
+                    >
+                  </div>
                 </div>
-              </div>
-            {% endif %}
+              {% endif %}
+            {% endunless %}
 
             <div class="product-form__error-message-wrapper product-form__error-message-wrapper--hidden{% if section.settings.enable_payment_button %} product-form__error-message-wrapper--has-payment-button{% endif %}"
               data-error-message-wrapper
@@ -225,7 +222,7 @@
               {% include 'icon-error' %}
               <span class="product-form__error-message" data-error-message>{{ 'products.product.quantity_minimum_message' | t }}</span>
             </div>
-
+            {% unless contains_affiliate %}
             <div class="product-form__controls-group product-form__controls-group--submit">
               <div class="product-form__item product-form__item--submit
                 {%- if section.settings.enable_payment_button %} product-form__item--payment-button {%- endif -%}
@@ -253,8 +250,10 @@
                 {% endif %}
               </div>
             </div>
+            {% else %}
+              <a target="_blank" href="{{ affiliate_url }}" class="btn product-form__cart-submit">SEE ON AMAZON</a>
+            {% endunless %}
           {% endform %}
-        {% endunless %}
         </div>
 
         {%- comment -%}
