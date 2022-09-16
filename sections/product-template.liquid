@@ -14,6 +14,17 @@
   {%- assign enable_image_zoom = section.settings.enable_image_zoom -%}
   {%- assign compare_at_price = current_variant.compare_at_price -%}
   {%- assign price = current_variant.price -%}
+  
+  {%- assign product_tags = product.tags -%}
+  {%- assign contains_affiliate = false -%}
+
+  {%- for tag in product_tags -%}
+    {%- if tag contains "affiliate" -%}
+      {%- assign contains_affiliate = true -%}
+      {%- assign affiliate_url = tag | split: "_" | last -%}
+    {%- endif -%}
+  {%- endfor -%}
+
 
   {% case section.settings.media_size %}
     {% when 'small' %}
@@ -136,28 +147,31 @@
 
         <h1 class="product-single__title">{{ product.title }}</h1>
         <script>window.performance.mark('debut:product:title_visible');</script>
-
-          <div class="product__price">
-            {% include 'product-price', variant: current_variant, show_vendor: section.settings.show_vendor %}
-          </div>
-
-          {%- if cart.taxes_included or shop.shipping_policy.body != blank -%}
-            <div class="product__policies rte" data-product-policies>
-              {%- if cart.taxes_included -%}
-                {{ 'products.product.include_taxes' | t }}
-              {%- endif -%}
-              {%- if shop.shipping_policy.body != blank -%}
-                {{ 'products.product.shipping_policy_html' | t: link: shop.shipping_policy.url }}
-              {%- endif -%}
+          {% if contains_affiliate %}
+            <a href="{{ affiliate_url }}" class="btn shopify-payment-button__button shopify-payment-button__button--unbranded BUz42FHpSPncCPJ4Pr_f jjzYeefyWpPZLH9pIgyw RWJ0IfBjxIhflh4AIrUw">See on Amazon</a>
+          {% endif %}
+          {% unless contains_affiliate%}
+            <div class="product__price">
+              {% include 'product-price', variant: current_variant, show_vendor: section.settings.show_vendor %}
             </div>
-          {%- endif -%}
 
+            {%- if cart.taxes_included or shop.shipping_policy.body != blank -%}
+              <div class="product__policies rte" data-product-policies>
+                {%- if cart.taxes_included -%}
+                  {{ 'products.product.include_taxes' | t }}
+                {%- endif -%}
+                {%- if shop.shipping_policy.body != blank -%}
+                  {{ 'products.product.shipping_policy_html' | t: link: shop.shipping_policy.url }}
+                {%- endif -%}
+              </div>
+            {%- endif -%}
+          {% endunless %}
           {% capture "form_classes" -%}
             product-form product-form-{{ section.id }}
             {%- if section.settings.enable_payment_button and product.has_only_default_variant %} product-form--payment-button-no-variants {%- endif -%}
             {%- if current_variant.available == false %} product-form--variant-sold-out {%- endif -%}
           {%- endcapture %}
-
+        {% unless contains_affiliate %}
           {% form 'product', product, class:form_classes, novalidate: 'novalidate', data-product-form: '' %}
             {{ form | payment_terms }}
 
@@ -240,6 +254,7 @@
               </div>
             </div>
           {% endform %}
+        {% endunless %}
         </div>
 
         {%- comment -%}
@@ -272,7 +287,7 @@
         <div class="product-single__description rte">
           {{ product.description }}
         </div>
-
+        
         {% if section.settings.show_share_buttons %}
           {% include 'social-sharing', share_title: product.title, share_permalink: product.url, share_image: product.featured_media %}
         {% endif %}
