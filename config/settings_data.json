@@ -182,6 +182,7 @@
           "a43de364-557a-490c-b790-9ad2f04780a6"
         ],
         "settings": {
+          "heading": "Instagram",
           "section_height": "medium"
         }
       },
@@ -296,6 +297,37 @@
           "show_product_recommendations": true,
           "heading": "You may also like",
           "show_vendor": false
+        }
+      },
+      "faq": {
+        "type": "faq",
+        "settings": {
+          "heading": "YOUR QUESTIONS ANSWERED",
+          "question": "How long does shipping take?",
+          "answer": "Usually it takes 3-5 business days."
+        }
+      },
+      "contact-form": {
+        "type": "contact-form",
+        "settings": {
+          "order_number_enabled": false
+        }
+      },
+      "contact-wholesale": {
+        "type": "contact-wholesale",
+        "settings": {
+          "business_types": ""
+        }
+      },
+      "feature-rows": {
+        "type": "feature-rows",
+        "settings": {
+          "number_of_feature_rows": "3",
+          "layout": "left",
+          "title": "Image with text",
+          "text": "<p>Pair large text with an image to give focus to your chosen product, collection, or blog post. Add details on availability, style, or even provide a review.<\/p>",
+          "button_label": "",
+          "button_link": ""
         }
       }
     },

@@ -50,7 +50,9 @@
     </div>
     <div class="grid grid--half-gutters">
       <div class="grid__item medium-up--one-half">
-        <label for="{{ formId }}-business-name"> Business Name </label>
+        <label for="{{ formId }}-business-name">
+          {{ 'customizations.wholesale.business_name' | t }}
+        </label>
         <input
           type="text"
           id="{{ formId }}-business-name"
@@ -58,7 +60,9 @@
         >
       </div>
       <div class="grid__item medium-up--one-half">
-        <label for="{{ formId }}-website"> Website </label>
+        <label for="{{ formId }}-website">
+          {{ 'customizations.wholesale.website' | t }}
+        </label>
         <input
           type="email"
           id="{{ formId }}-website"
@@ -87,7 +91,9 @@
       </div>
     </div>
     {% unless section.settings.business_types == blank %}
-      <label for="{{ formId }}-business-type"> Business Type </label>
+      <label for="{{ formId }}-business-type">
+        {{ 'customizations.wholesale.business_type' | t }}
+      </label>
       <select
         id="{{ formId }}-business-type"
         name="contact[business-type]"
@@ -111,7 +117,9 @@
       value="{% if form[phone] %}{{ form[phone] }}{% elsif customer %}{{ customer.phone }}{% endif %}"
     >
     {% if section.settings.order_number_enabled %}
-      <label for="orderNumber">Order Number</label>
+      <label for="orderNumber">
+        {{- 'customizations.wholesale.order_number' | t -}}
+      </label>
       <input
         type="text"
         id="{{ formId }}-orderNumber"
