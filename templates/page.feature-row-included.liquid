@@ -1,0 +1,19 @@
+<div class="page-width">
+  <div class="grid">
+    <div class="grid__item medium-up--five-sixths medium-up--push-one-twelfth">
+      <div class="section-header text-center">
+        <h1>{{ page.title }}</h1>
+      </div>
+
+      <div class="rte">
+        {{ page.content }}
+        {% section 'feature-rows' %}
+        {% unless section.settings.number_of_feature_rows == blank %}
+          {% for i in (0..section.settings.number_of_feature_rows) %}
+            {% section 'feature-row' %}
+          {% endfor %}
+        {% endunless %}
+      </div>
+    </div>
+  </div>
+</div>
