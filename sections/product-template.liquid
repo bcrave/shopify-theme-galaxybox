@@ -254,7 +254,7 @@
               </div>
             </div>
             {% else %}
-              <a data-add-to-cart target="_blank" href="{{ affiliate_url }}" class="btn product-form__cart-submit">SEE ON AMAZON</a>
+              <a data-add-to-cart target="_blank" href="{{ affiliate_url }}" class="btn product-form__cart-submit">{{'customizations.affiliate_page.amazon_btn' | t}}</a>
             {% endunless %}
           {% endform %}
         </div>
@@ -286,8 +286,34 @@
         >
         </div>
 
-        <div class="product-single__description rte">
-          {{ product.description }}
+        <div class="product-info container">
+          <div class="selector">
+            <div class="tab tab-active">
+              {{'customizations.product_info.description' | t}}
+            </div>
+
+            {% unless product.metafields.product_info.details_table == blank %}
+            <div class="tab">
+              {{ 'customizations.product_info.details' | t }}
+            </div>
+            {% endunless %}
+
+            <div class="tab">
+              {{ 'customizations.product_info.shipping.title' | t }}
+              
+            </div>
+          </div>
+          <div class="content">
+            <div id="Description" class="content-body show-active">
+              {{ product.description }}
+            </div>
+            <div id="Details" class="content-body">
+              {{ product.metafields.product_info.details_table }}
+            </div>
+            <div id="Shipping" class="content-body">
+              <p>{{ 'customizations.product_info.shipping.content' | t }}</p>
+            </div>
+          </div>
         </div>
         
         {% if section.settings.show_share_buttons %}
