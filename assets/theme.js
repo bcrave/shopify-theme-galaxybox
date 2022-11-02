@@ -691,6 +691,9 @@ slate.Variants = (function () {
     );
     this.currentVariant = this._getVariantFromOptions();
 
+    this.detailsUS = document.getElementById("details-us");
+    this.detailsEU = document.getElementById("details-eu");
+
     this.singleOptions.forEach(
       function (option) {
         option.addEventListener("change", this._onSelectChange.bind(this));
@@ -766,6 +769,7 @@ slate.Variants = (function () {
       this._updateImages(variant);
       this._updatePrice(variant);
       this._updateSKU(variant);
+      this._updateDetails(variant);
       this.currentVariant = variant;
 
       if (this.enableHistoryState) {
@@ -880,6 +884,18 @@ slate.Variants = (function () {
 
       if (!masterSelect) return;
       masterSelect.value = variant.id;
+    },
+
+    _updateDetails: function (variant) {
+      if (this.detailsUS && this.detailsEU) {
+        if (variant.option2 == "US") {
+          this.detailsUS.classList.remove("hide");
+          this.detailsEU.classList.add("hide");
+        } else if (variant.option2 == "EU") {
+          this.detailsEU.classList.remove("hide");
+          this.detailsUS.classList.add("hide");
+        }
+      }
     },
   });
 

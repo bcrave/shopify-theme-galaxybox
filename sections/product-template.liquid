@@ -292,15 +292,16 @@
               {{'customizations.product_info.description' | t}}
             </div>
 
-            {% unless product.metafields.product_info.details_table == blank %}
-            <div class="tab">
-              {{ 'customizations.product_info.details' | t }}
-            </div>
+            {% unless product.metafields.product_info.details_table_us == blank %}
+            {% assign current_variant = product.selected_or_first_available_variant %}
+
+              <div class="tab">
+                {{ 'customizations.product_info.details' | t }}
+              </div>
             {% endunless %}
 
             <div class="tab">
               {{ 'customizations.product_info.shipping.title' | t }}
-              
             </div>
           </div>
           <div class="content">
@@ -308,7 +309,12 @@
               {{ product.description }}
             </div>
             <div id="Details" class="content-body">
-              {{ product.metafields.product_info.details_table }}
+              <div id="details-us" class="{% if current_variant.option2 == 'EU' %}hide{% endif %}">
+                {{ product.metafields.product_info.details_table_us }}
+              </div>
+              <div id="details-eu" class="{% if current_variant.option2 == 'US' %}hide{% endif %}">
+                {{ product.metafields.product_info.details_table_eu }}
+              </div>
             </div>
             <div id="Shipping" class="content-body">
               <p>{{ 'customizations.product_info.shipping.content' | t }}</p>
