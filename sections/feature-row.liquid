@@ -3,23 +3,42 @@
     <div class="feature-row__item">
       {% if section.settings.image != blank %}
         {% capture img_id %}FeatureRowImage-{{ section.id }}{% endcapture %}
-        {% capture wrapper_id %}FeatureRowImageWrapper-{{ section.id }}{% endcapture %}
-        {%- assign img_url = section.settings.image | img_url: '1x1' | replace: '_1x1.', '_{width}x.' -%}
-        {% include 'image-style', image: section.settings.image, height: 545, wrapper_id: wrapper_id, img_id: img_id %}
+        {% capture wrapper_id -%}
+          FeatureRowImageWrapper-{{ section.id -}}
+        {%- endcapture %}
+        {%- assign img_url = section.settings.image
+          | img_url: '1x1'
+          | replace: '_1x1.', '_{width}x.'
+        -%}
+        {% include 'image-style',
+          image: section.settings.image,
+          height: 545,
+          wrapper_id: wrapper_id,
+          img_id: img_id
+        %}
         <div id="{{ wrapper_id }}" class="feature-row__image-wrapper js">
-          <div style="padding-top:{{ 1 | divided_by: section.settings.image.aspect_ratio | times: 100}}%;" data-image-loading-animation>
-            <img id="{{ img_id }}"
-                 class="feature-row__image lazyload"
-                 data-src="{{ img_url }}"
-                 data-widths="[180, 360, 540, 720, 900, 1080, 1296, 1512, 1728, 2048]"
-                 data-aspectratio="{{ section.settings.image.aspect_ratio }}"
-                 data-sizes="auto"
-                 alt="{{ section.settings.image.alt | escape }}">
+          <div
+            style="padding-top:{{ 1 | divided_by: section.settings.image.aspect_ratio | times: 100}}%;"
+            data-image-loading-animation
+          >
+            <img
+              id="{{ img_id }}"
+              class="feature-row__image lazyload"
+              data-src="{{ img_url }}"
+              data-widths="[180, 360, 540, 720, 900, 1080, 1296, 1512, 1728, 2048]"
+              data-aspectratio="{{ section.settings.image.aspect_ratio }}"
+              data-sizes="auto"
+              alt="{{ section.settings.image.alt | escape }}"
+            >
           </div>
         </div>
 
         <noscript>
-          {{ section.settings.image | img_url: '600x600', scale: 2 | img_tag: section.settings.image.alt, 'feature-row__image' }}
+          {{
+            section.settings.image
+            | img_url: '600x600', scale: 2
+            | img_tag: section.settings.image.alt, 'feature-row__image'
+          }}
         </noscript>
       {% else %}
         {{ 'image' | placeholder_svg_tag: 'placeholder-svg' }}
@@ -37,9 +56,13 @@
         <h2 class="h3">{{ section.settings.title | escape }}</h2>
       {% endif %}
       {% if section.settings.text != blank %}
-        <div class="rte rte-setting featured-row__subtext">{{ section.settings.text }}</div>
+        <div class="rte rte-setting featured-row__subtext">
+          {{ section.settings.text }}
+        </div>
       {% endif %}
-      {% if section.settings.button_label != blank and section.settings.button_link != blank %}
+      {% if section.settings.button_label != blank
+        and section.settings.button_link != blank
+      %}
         {%- capture ariaLabel -%}
           {{- section.settings.button_label -}}
           {%- if section.settings.button_link.type == 'frontpage_link' -%}
@@ -51,9 +74,11 @@
           {%- endif -%}
         {%- endcapture -%}
 
-        <a href="{{ section.settings.button_link }}"
+        <a
+          href="{{ section.settings.button_link }}"
           class="btn"
-          aria-label="{{ ariaLabel }}">
+          aria-label="{{ ariaLabel }}"
+        >
           {{- section.settings.button_label | escape -}}
         </a>
       {% endif %}
@@ -64,8 +89,6 @@
     {% endif %}
   </div>
 </div>
-
-
 
 {% schema %}
 {
@@ -85,7 +108,7 @@
     "pl": "Obraz z tekstem",
     "pt-BR": "Imagem com texto",
     "pt-PT": "Imagem com texto",
-    "sv": "Bild med text",
+    "sv": "Bild med text", p
     "th": "รูปภาพพร้อมข้อความ",
     "tr": "Metin içeren görsel",
     "vi": "Hình ảnh có chữ",
